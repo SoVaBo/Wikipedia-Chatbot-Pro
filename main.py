@@ -22,7 +22,8 @@ def lemma_me(sent):
            sentlemma.append(lemma)
     return sentlemma
 
-text = wikipedia.page('vegetables').content
+topic = input('What topic do you want to ask about?\n')
+text = wikipedia.page(topic).content
 
 def process(text,question):
   sentence_tokens = nltk.sent_tokenize(text)
