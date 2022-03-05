@@ -21,7 +21,9 @@ def lemma_me(sent):
            lemma = lemmatizer.lemmatize(tocken, tag[1][0].lower())
            sentlemma.append(lemma)
     return sentlemma
+
 text = wikipedia.page('vegetables').content
+
 def process(text,question):
   sentence_tokens = nltk.sent_tokenize(text)
   sentence_tokens.append(question)
@@ -37,6 +39,13 @@ def process(text,question):
   if coeff>0.3:
     return sentence_tokens[index]
 
-question = input('what do you want to know?\n')
-
-process (text,question)
+while True:
+  question = input('what do you want to know?\n')
+  output = process(text,question)
+  if output:
+    print(output)
+  elif question == 'quit':
+    break
+  else:
+    print("I don't know!")
+  
