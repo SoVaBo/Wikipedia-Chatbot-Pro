@@ -21,18 +21,22 @@ def lemma_me(sent):
            lemma = lemmatizer.lemmatize(tocken, tag[1][0].lower())
            sentlemma.append(lemma)
     return sentlemma
-text = 'Originally, vegetables were collected from the wild by hunter-gatherers. Vegetables are all plants. Vegetables can be eaten either raw or cooked.'
-question = 'What are vegetables?' 
-sentence_tokens = nltk.sent_tokenize(text)
-sentence_tokens.append(question)
-sentence_tokens
-tv = TfidfVectorizer(tokenizer=lemma_me)
-tf=tv.fit_transform(sentence_tokens)
-tf.toarray()
-values = cosine_similarity(tf[-1], tf)
-index = values.argsort()[0][-2]
-values_flat = values.flatten()
-values_flat.sort()
-coeff = values_flat[-2]
-if coeff>0.3:
-    print(sentence_tokens[index])
+text = wikipedia.page('vegetables').content
+def process(text,question):
+  sentence_tokens = nltk.sent_tokenize(text)
+  sentence_tokens.append(question)
+
+  tv = TfidfVectorizer(tokenizer=lemma_me)
+  tf=tv.fit_transform(sentence_tokens)
+  tf.toarray()
+  values = cosine_similarity(tf[-1], tf)
+  index = values.argsort()[0][-2]
+  values_flat = values.flatten()
+  values_flat.sort()
+  coeff = values_flat[-2]
+  if coeff>0.3:
+    return sentence_tokens[index]
+
+question = input('what do you want to know?\n')
+
+process (text,question)
